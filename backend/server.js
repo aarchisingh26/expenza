@@ -4,13 +4,26 @@ import { connectDB } from './db.js';
 import Expense from './expense.js';
 import cors from "cors";
 import mongoose from 'mongoose';
+import path from "path";
 
 dotenv.config();
 
 const app = express();
 
 // Enable CORS for all origins (for development only)
-app.use(cors());
+// app.use(cors());
+
+// app.use(cors({
+//     origin: 'http://localhost:2000', // Replace with your frontend URL
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     credentials: true
+// }));
+
+// app.use(cors({
+//     origin: 'http://localhost:5173',
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     credentials: true
+// }));
 
 
 // Or specify the allowed origin
@@ -18,11 +31,10 @@ app.use(cors());
 
 const PORT = process.env.PORT || 2000;
 
+const __dirname = path.resolve();
+
 app.use(express.json());
 
-// app.get('/expenses', (req, res) => {
-//     // res.send("server is ready");
-// });
 
 app.get('/api/expenses', async (req, res) => {
     try {
@@ -84,6 +96,12 @@ app.delete('/api/expenses/:id', async (req, res) => {
 	}
 });
 
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+	});
+}
 
 app.listen(PORT, () => {
     connectDB();

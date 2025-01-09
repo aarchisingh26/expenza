@@ -7,7 +7,7 @@ export const useExpenseTracker = create((set) => ({
 		if (!newExpense.name || !newExpense.category || !newExpense.price) {
 			return { success: false, message: "Please fill in all fields." };
 		}
-		const res = await fetch("http://localhost:2000/expenses", {
+		const res = await fetch("/expenses", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -25,26 +25,11 @@ export const useExpenseTracker = create((set) => ({
 	// 	set({ expenses: data.data });
 	// },
 
-    // fetchExpenses: async () => {
-    //     try {
-    //         const res = await fetch("http://localhost:2000/api/expenses");
-    //         if (!res.ok) {
-    //             throw new Error("Failed to fetch expenses");
-    //         }
-    //         const data = await res.json();
     
-    //         // Sort expenses by date (newest first)
-    //         const sortedExpenses = data.data.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
-    //         set({ expenses: sortedExpenses });
-    //     } catch (error) {
-    //         console.error("Error fetching expenses:", error.message);
-    //     }
-    // },
 
     
 	deleteExpense: async (id) => {
-		const res = await fetch(`http://localhost:2000/api/expenses/${id}`, {
+		const res = await fetch(`/api/expenses/${id}`, {
 			method: "DELETE",
 		});
 		const data = await res.json();

@@ -22,18 +22,12 @@ export default function Expenses() {
     const { createExpense, deleteExpense } = useExpenseTracker();
 
     
+    //remove the console
     const fetchExpenses = async () => {
-        try {
-            const res = await fetch("http://localhost:2000/api/expenses");
-            const data = await res.json();
-            if (res.ok) {
-                setExpenses(data.data);
-            } else {
-                console.error(data.message);
-            }
-        } catch (error) {
-            console.error("Error fetching expenses:", error);
-        }
+        
+        const res = await fetch("/api/expenses");
+		const data = await res.json();
+		setExpenses(data.data);
     };
    
     useEffect(() => {
@@ -73,7 +67,6 @@ export default function Expenses() {
     
     
     const handleAddExpense = async () => {
-        console.log("Adding expense for date:", selectedDate);
     
         const expenseToSave = {
             ...newExpense,
@@ -93,14 +86,12 @@ export default function Expenses() {
         const prevDate = new Date(selectedDate);
         prevDate.setDate(prevDate.getDate() - 1);
         setSelectedDate(prevDate);
-        console.log("Selected previous date:", prevDate);
     };
     
     const handleNextDay = () => {
         const nextDate = new Date(selectedDate);
         nextDate.setDate(nextDate.getDate() + 1);
         setSelectedDate(nextDate);
-        console.log("Selected next date:", nextDate);
     };
     
     const handleToday = () => {

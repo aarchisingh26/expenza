@@ -16,14 +16,13 @@ export default function App() {
 
   // Log for debugging
   useEffect(() => {
-    console.log("Mounted:", mounted);
-    console.log("Clerk user:", user);
+    
   }, [mounted, user]);
 
   // Redirect if user is signed in and component is mounted
   useEffect(() => {
     if (mounted && user) {
-      console.log("User is signed in. Redirecting to /expenses...");
+      
       setTimeout(() => {
         navigate('/expenses'); // Use navigate from react-router-dom
       }, 100); // Delay to allow Clerk to fully load
